@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Riccio Donation Alert.iml" filepath="$PROJECT_DIR$/Riccio Donation Alert.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Twitch Donation Alert.iml" filepath="$PROJECT_DIR$/Twitch Donation Alert.iml" />
     </modules>
   </component>
 </project>

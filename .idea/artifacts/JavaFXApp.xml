@@ -2,7 +2,7 @@
   <artifact type="jar" name="JavaFXApp">
     <output-path>$PROJECT_DIR$/out/artifacts/JavaFXApp</output-path>
     <root id="archive" name="JavaFXApp.jar">
-      <element id="module-output" name="Riccio Donation Alert" />
+      <element id="module-output" name="Twitch Donation Alert" />
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
