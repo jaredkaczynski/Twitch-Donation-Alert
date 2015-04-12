@@ -54,6 +54,8 @@ public class Controller extends Thread implements Runnable {
     private TabPane TabPaneMain;
     @FXML
     private Tab NotificationTab;
+    @FXML
+    private ChoiceBox dropDownSelector;
 
     //    Thread DonationChecker;
     // private boolean runOnce=false;
@@ -139,6 +141,11 @@ public class Controller extends Thread implements Runnable {
         DonatorName.setText(Donator + " $" + String.format("%.2f", Amount));
     }
 
+    public void setData() {
+        dropDownSelector.getItems().addAll("ExtraLife", "Doctors Without Borders");
+        dropDownSelector.getSelectionModel().selectFirst();
+        //TabPaneMain.getSelectionModel().selectLast();
+    }
     public void showDonationAlertMoney(final String Donator, final double Amount, final String Mess) {
         System.out.println("Trying to show the alert money");
         System.out.println(Thread.currentThread().getId());
@@ -215,11 +222,12 @@ public class Controller extends Thread implements Runnable {
         donationSound.getText();
         donationShown.selectedProperty();
 
+
        /* Donations DonationChecker = new Donations(Integer.valueOf(extraLifeID.getText()),
                 timeDelaySend,
                 donateSound,
                 donationShown.selectedProperty().getValue(),0,"test","test");*/
-        Runnable r = new Donations(Integer.valueOf(extraLifeID.getText()),
+        Runnable r = new Donations(dropDownSelector.getSelectionModel().getSelectedIndex(), Integer.valueOf(extraLifeID.getText()),
                 timeDelaySend,
                 donateSound,
                 donationShown.selectedProperty().getValue(), 0, "test", "test", Controller.this);

@@ -13,12 +13,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by Jared Kaczynski on 21.10.2014.
+ * Created by Jared on 21.10.2014.
  */
 public class Donations extends Thread implements Runnable {
     String totalDonations = "0";
     int userId = 116306; //Twitch.tv/riccio is the person this was made for so I defaulted it to his ID
-    String url = "http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participantDonations&participantID=" + userId;
+    String[] donationURL = {"http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participantDonations&participantID=", "http://events.doctorswithoutborders.org/index.cfm?fuseaction=donorDrive.participant&participantID="};
+    String url;
     //This is how I tested it without spending money
     //String url = "https://dl.dropboxusercontent.com/u/17647321/extralife.html";
     int refreshTime = 2;
@@ -36,9 +37,10 @@ public class Donations extends Thread implements Runnable {
 
     Queue<donationInfo> q = new LinkedList();
 
-    public Donations(int donationSiteID, int timeBetween, String soundFile, Boolean showDonation, double donation, String Mess, String Name, Controller controller) {
-
+    public Donations(int DonationSite, int donationSiteID, int timeBetween, String soundFile, Boolean showDonation, double donation, String Mess, String Name, Controller controller) {
         userId = donationSiteID;
+        url = donationURL[DonationSite] + userId;
+        System.out.println("Donation URL = " + url);
         refreshTime = timeBetween * 1000;
         soundFileLocation = soundFile;
         alertWindow = controller;
@@ -204,13 +206,13 @@ public class Donations extends Thread implements Runnable {
         boolean donationUpdate = false;
         try {
             doc = Jsoup.connect(url).get();
-
-
+            if (doc.text().contains("The participant you're looking for can't be found in the system.")) {
+                System.out.println("This person does not exist in the system currently");
+                Platform.exit();
+            }
             Element link = null;
             link = doc.select("iframe").first();
             iframeSrc = link.attr("src");
-            //parts = recentDonatorMessage.split(" donated");
-            //recentDonatorName = parts[0];
             currentDonations = iframeSrc.split("&goalLabel")[0];
             currentDonations = currentDonations.split("actualAmount=")[1];
             donationUpdate = (Double.valueOf(currentDonations) > (Double.valueOf(totalDonations)));

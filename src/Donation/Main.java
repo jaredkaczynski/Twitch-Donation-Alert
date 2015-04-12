@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+
 public class Main extends Application {
 
 
@@ -22,13 +23,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        Parent root = loader.load();
         //FXMLLoader root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         // root.setRoot(this);
         //root.setController(this);
         primaryStage.setTitle("Razrswords Twitch Donation Checker");
         primaryStage.setScene(new Scene(root, 600, 305));
         primaryStage.show();
+        Controller myController = loader.getController();
+        myController.setData();
         //Controller initialize = new Controller();
         //initialize.removeScrollBar();
 

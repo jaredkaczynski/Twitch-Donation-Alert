@@ -6,7 +6,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Donation.Controller">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" fx:controller="Donation.Controller">
     <children>
         <TabPane id="TabPaneMain" layoutX="153.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity"
                  prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
@@ -18,18 +19,18 @@
                             <children>
                                 <TextField fx:id="extraLifeID" layoutX="20.0" layoutY="22.0" prefHeight="25.0"
                                            prefWidth="254.0" promptText="Your Extra-Life ID " text="116306"
-                                           AnchorPane.leftAnchor="20.0"/>
+                                           AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="24.0"/>
                                 <CheckBox fx:id="donationShown" layoutX="14.0" layoutY="169.0" mnemonicParsing="false"
                                           selected="true"
                                           text="Show Donation Amount in Notification? Pls don't expect this to work if you deselect. Unchecked not implemented"
                                           AnchorPane.leftAnchor="14.0"/>
                                 <TextField fx:id="timeDelay" layoutX="20.0" layoutY="58.0" prefHeight="25.0"
                                            prefWidth="254.0" promptText="Time Between Checks" text="5"
-                                           AnchorPane.leftAnchor="20.0"/>
+                                           AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0"/>
                                 <TextField fx:id="donationSound" layoutX="20.0" layoutY="94.0" prefHeight="25.0"
                                            prefWidth="389.0"
                                            promptText="Sound for donations mp3 only please default is none ex C:/Zelda.mp3"
-                                           AnchorPane.leftAnchor="20.0"/>
+                                           AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="94.0"/>
                                 <Button fx:id="startNotifications" layoutX="465.0" layoutY="322.0"
                                         mnemonicParsing="false" onAction="#runCheck" text="Start Notification"
                                         AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="28.0"/>
@@ -39,6 +40,7 @@
                                 <Button fx:id="soundTest" layoutX="427.0" layoutY="94.0" mnemonicParsing="false"
                                         onAction="#runSoundCheck" text="TestSound" AnchorPane.leftAnchor="427.0"
                                         AnchorPane.topAnchor="94.0"/>
+                                <ChoiceBox fx:id="dropDownSelector" layoutX="313.0" layoutY="24.0" prefWidth="150.0"/>
                             </children>
                         </AnchorPane>
                     </content>
