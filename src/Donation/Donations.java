@@ -115,12 +115,9 @@ public class Donations extends Thread implements Runnable {
 
             links = doc.select("#donors .donor-detail:first-of-type > em");
             link = links.first();
-            if (lastDonatorMessage.equals(link.text())) {
-                recentDonatorMessage = "";
-            } else {
-                recentDonatorMessage = link.text();
-                //lastDonatorMessage = recentDonatorMessage;
-            }
+
+            recentDonatorMessage = link.text();
+
             // parts = recentDonatorMessage.split(" donated");
             // recentDonatorName = parts[0];
             System.out.println("");
@@ -179,17 +176,19 @@ public class Donations extends Thread implements Runnable {
             links = doc.select("#donors .donor-detail:first-of-type > em");
             link = links.first();
             // link = doc.select("strong").first();
-
-            if (lastDonatorMessage.equals(link.text())) {
+            recentDonatorMessage = link.text();
+            /*if (lastDonatorMessage.equals(link.text())) {
+                System.out.println(links.text());
                 recentDonatorMessage = "";
             } else {
+                System.out.println("else");
                 recentDonatorMessage = link.text();
                 //lastDonatorMessage = recentDonatorMessage;
-            }
+            }*/
             // parts = recentDonatorMessage.split(" donated");
             // recentDonatorName = parts[0];
             System.out.println("");
-            if ((!lastDonatorName.equals(recentDonatorName) && !lastDonatorMessage
+            if ((!lastDonatorName.equals(recentDonatorName) || !lastDonatorMessage
                     .equals(recentDonatorMessage))) {
                 lastDonatorName = recentDonatorName;
                 lastDonatorMessage = recentDonatorMessage;
