@@ -1,82 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-
+<?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Donation.Controller">
-   <children>
-      <TabPane layoutX="153.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <tabs>
-          <Tab fx:id="Options" text="Options">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="500.0">
-                     <children>
-                        <TextField fx:id="extraLifeID" layoutX="20.0" layoutY="22.0" prefHeight="25.0" prefWidth="254.0" promptText="Your Extra-Life ID " text="116306" AnchorPane.leftAnchor="20.0" />
-                        <CheckBox fx:id="donationShown" layoutX="14.0" layoutY="169.0" mnemonicParsing="false" selected="true" text="Show Donation Amount in Notification? Pls don't expect this to work if you deselect" AnchorPane.leftAnchor="14.0" />
-                        <TextField fx:id="timeDelay" layoutX="20.0" layoutY="58.0" prefHeight="25.0" prefWidth="254.0" promptText="Time Between Checks" text="5" AnchorPane.leftAnchor="20.0" />
-                        <TextField fx:id="donationSound" layoutX="20.0" layoutY="94.0" prefHeight="25.0" prefWidth="389.0" promptText="Sound for donations mp3 only pls default is none ex C:/Zelda.mp3" AnchorPane.leftAnchor="20.0" />
-                        <Button fx:id="startNotifications" layoutX="465.0" layoutY="322.0" mnemonicParsing="false" onAction="#runCheck" text="Start Notification" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="28.0" />
-                        <Button fx:id="removeScrollbar" layoutX="20.0" layoutY="332.0" mnemonicParsing="false" onAction="#removeScrollBar" text="RemoveScrollBarforTesting" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" />
-                        <Button fx:id="soundTest" layoutX="427.0" layoutY="94.0" mnemonicParsing="false" onAction="#runSoundCheck" text="TestSound" AnchorPane.leftAnchor="427.0" AnchorPane.topAnchor="94.0" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Notification">
-            <content>
-              <AnchorPane fx:id="MessageBox" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="500.0" style="-fx-background-color: #01DF01;">
-                     <children>
-                        <Pane fx:id="FollowerPane" layoutX="42.0" layoutY="27.0">
-                           <children>
-                              <ImageView fitHeight="62.0" fitWidth="514.0" pickOnBounds="true" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0" AnchorPane.topAnchor="36.0">
-                                 <image>
-                                    <Image url="@../navn.png" />
-                                 </image>
-                              </ImageView>
-                              <GridPane layoutY="7.0" prefHeight="48.0" prefWidth="507.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <TextField fx:id="DonatorName" editable="false" layoutX="11.0" layoutY="7.0" prefHeight="42.0" prefWidth="205.0" style="-fx-background-color: rgba(0, 100, 100, 0);" styleClass="fontOutlined" stylesheets="@../TextArea.css" text="Username $50.00">
-                                       <font>
-                                          <Font name="Arial Bold" size="16.0" />
-                                       </font>
-                                       <effect>
-                                          <DropShadow blurType="TWO_PASS_BOX" height="10.0" radius="4.5" spread="1.0" width="10.0" />
-                                       </effect>
-                                    </TextField>
-                                    <TextArea fx:id="Message" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="320.0" style="-fx-background-color: rgba(0, 100, 100, 0);" styleClass="fontOutlined" stylesheets="@../TextArea.css" text="testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttt&#10;&#10;" wrapText="true" GridPane.columnIndex="1">
-                                       <font>
-                                          <Font name="Arial Bold" size="14.0" />
-                                       </font>
-                                       <effect>
-                                          <DropShadow blurType="TWO_PASS_BOX" height="10.0" radius="4.5" spread="1.0" width="10.0" />
-                                       </effect></TextArea>
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </Pane>
-                        <CheckBox fx:id="showDonationBar" layoutX="32.0" layoutY="330.0" mnemonicParsing="false" text="Useless" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="32.0" />
-                        <Button fx:id="testSlider" layoutX="130.0" layoutY="326.0" mnemonicParsing="false" onAction="#testSlider" text="ShowBarOrHideThisWorks" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="130.0" />
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-   </children>
+    <children>
+        <TabPane id="TabPaneMain" layoutX="153.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity"
+                 prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab fx:id="Options" text="Options">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="500.0">
+                            <children>
+                                <TextField fx:id="extraLifeID" layoutX="20.0" layoutY="22.0" prefHeight="25.0"
+                                           prefWidth="254.0" promptText="Your Extra-Life ID " text="116306"
+                                           AnchorPane.leftAnchor="20.0"/>
+                                <CheckBox fx:id="donationShown" layoutX="14.0" layoutY="169.0" mnemonicParsing="false"
+                                          selected="true"
+                                          text="Show Donation Amount in Notification? Pls don't expect this to work if you deselect. Unchecked not implemented"
+                                          AnchorPane.leftAnchor="14.0"/>
+                                <TextField fx:id="timeDelay" layoutX="20.0" layoutY="58.0" prefHeight="25.0"
+                                           prefWidth="254.0" promptText="Time Between Checks" text="5"
+                                           AnchorPane.leftAnchor="20.0"/>
+                                <TextField fx:id="donationSound" layoutX="20.0" layoutY="94.0" prefHeight="25.0"
+                                           prefWidth="389.0"
+                                           promptText="Sound for donations mp3 only please default is none ex C:/Zelda.mp3"
+                                           AnchorPane.leftAnchor="20.0"/>
+                                <Button fx:id="startNotifications" layoutX="465.0" layoutY="322.0"
+                                        mnemonicParsing="false" onAction="#runCheck" text="Start Notification"
+                                        AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="28.0"/>
+                                <Button fx:id="removeScrollbar" layoutX="20.0" layoutY="332.0" mnemonicParsing="false"
+                                        onAction="#removeScrollBar" text="RemoveScrollBarforTesting"
+                                        AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="28.0"/>
+                                <Button fx:id="soundTest" layoutX="427.0" layoutY="94.0" mnemonicParsing="false"
+                                        onAction="#runSoundCheck" text="TestSound" AnchorPane.leftAnchor="427.0"
+                                        AnchorPane.topAnchor="94.0"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab id="NotificationTab" text="Notification">
+                    <content>
+                        <AnchorPane fx:id="MessageBox" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                    prefWidth="500.0" style="-fx-background-color: #01DF01;">
+                            <children>
+                                <Pane fx:id="FollowerPane" layoutX="42.0" layoutY="27.0">
+                                    <children>
+                                        <ImageView fitHeight="62.0" fitWidth="514.0" pickOnBounds="true"
+                                                   AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="43.0"
+                                                   AnchorPane.topAnchor="36.0">
+                                            <image>
+                                                <Image url="@../navn.png"/>
+                                            </image>
+                                        </ImageView>
+                                        <GridPane layoutY="7.0" prefHeight="48.0" prefWidth="507.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+                                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+                                            </rowConstraints>
+                                            <children>
+                                                <TextField fx:id="DonatorName" editable="false" layoutX="11.0"
+                                                           layoutY="7.0" prefHeight="42.0" prefWidth="205.0"
+                                                           style="-fx-background-color: rgba(0, 100, 100, 0);"
+                                                           styleClass="fontOutlined" stylesheets="@../TextArea.css"
+                                                           text="Username $50.00">
+                                                    <font>
+                                                        <Font name="Arial Bold" size="16.0"/>
+                                                    </font>
+                                                    <effect>
+                                                        <DropShadow blurType="TWO_PASS_BOX" height="10.0" radius="4.5"
+                                                                    spread="1.0" width="10.0"/>
+                                                    </effect>
+                                                </TextField>
+                                                <TextArea fx:id="Message" editable="true" maxHeight="-Infinity"
+                                                          maxWidth="-Infinity" minHeight="-Infinity"
+                                                          minWidth="-Infinity" prefHeight="40.0" prefWidth="320.0"
+                                                          style="-fx-background-color: rgba(0, 100, 100, 0);"
+                                                          styleClass="fontOutlined" stylesheets="@../TextArea.css"
+                                                          text="testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttt&#10;&#10;"
+                                                          wrapText="true" GridPane.columnIndex="1">
+                                                    <font>
+                                                        <Font name="Arial Bold" size="14.0"/>
+                                                    </font>
+                                                    <effect>
+                                                        <DropShadow blurType="TWO_PASS_BOX" height="10.0" radius="4.5"
+                                                                    spread="1.0" width="10.0"/>
+                                                    </effect>
+                                                </TextArea>
+                                            </children>
+                                        </GridPane>
+                                    </children>
+                                </Pane>
+                                <CheckBox fx:id="showDonationBar" layoutX="32.0" layoutY="330.0" mnemonicParsing="false"
+                                          text="Useless" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="32.0"/>
+                                <Button fx:id="testSlider" layoutX="130.0" layoutY="326.0" mnemonicParsing="false"
+                                        onAction="#testSlider" text="ShowBarOrHideThisWorks"
+                                        AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="130.0"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
 </AnchorPane>

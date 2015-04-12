@@ -1,14 +1,9 @@
 package Donation;
 
 import javafx.animation.TranslateTransition;
-import javafx.animation.TranslateTransitionBuilder;
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -16,17 +11,25 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Controller extends Thread implements Runnable {
+    @FXML
+    public Pane FollowerPane;
     Main newMain = new Main();
+    TranslateTransition slideNotificationOut;
+    TranslateTransition SlideNotificationin;
+    /*public Controller() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }*/
+    boolean isSlided = false;
+    boolean threadStarted = false;
     @FXML
     private Text actiontarget;
     @FXML
@@ -42,58 +45,46 @@ public class Controller extends Thread implements Runnable {
     @FXML
     private TextArea Message = null;
     @FXML
-    public Pane FollowerPane;
-    @FXML
     private Button startNotifications;
     @FXML
     private Button testSlider;
     @FXML
     private Tab Options;
     @FXML
+    private TabPane TabPaneMain;
+    @FXML
+    private Tab NotificationTab;
+
+    //    Thread DonationChecker;
+    // private boolean runOnce=false;
+    @FXML
     private CheckBox showDonationBar;
     @FXML
     private TextField alertShowTime;
 
-    TranslateTransition slideNotificationOut;
-    TranslateTransition SlideNotificationin;
-
-    //    Thread DonationChecker;
-    // private boolean runOnce=false;
-
-    /*public Controller() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }*/
-    boolean isSlided = false;
     public void testSlider() {
-    	System.out.println(FollowerPane.getTranslateY());
-        if(FollowerPane.getTranslateY() <= 0){
+        System.out.println(FollowerPane.getTranslateY());
+        if (FollowerPane.getTranslateY() <= 0) {
             TranslateTransition slideOut = new TranslateTransition(Duration.seconds(.15), FollowerPane);
             slideOut.setByY(62);
             slideOut.play();
-            isSlided= true;
-        }else if(FollowerPane.getTranslateY() ==62){
+            isSlided = true;
+        } else if (FollowerPane.getTranslateY() == 62) {
             TranslateTransition slideIn = new TranslateTransition(Duration.seconds(.15), FollowerPane);
             slideIn.setByY(-62);
             slideIn.play();
-            isSlided= false;
+            isSlided = false;
         }
     }
-    public void slideIn(){
-    	if(FollowerPane.getTranslateY() == 62){
+
+    public void slideIn() {
+        if (FollowerPane.getTranslateY() == 62) {
             TranslateTransition slideIn = new TranslateTransition(Duration.seconds(.15), FollowerPane);
             slideIn.setByY(-62);
             slideIn.play();
-            isSlided= false;
-    }
-    	/*
+            isSlided = false;
+        }
+        /*
         FollowerPane.setVisible(!FollowerPane.isVisible());
         if(testSlider.getText()=="Hide Panel"){
             testSlider.setText("Show Panel");
@@ -101,11 +92,11 @@ public class Controller extends Thread implements Runnable {
         testSlider.setText("Hide Panel");*/
     }
 
-
     public void removeScrollBar() {
         ScrollBar scrollBarv = (ScrollBar) Message.lookup(".scroll-bar:vertical");
         scrollBarv.setDisable(true);
     }
+
     @FXML
     void runCheck(ActionEvent event) {
         //initialize();
@@ -127,35 +118,37 @@ public class Controller extends Thread implements Runnable {
         }.start();
 
     }
-    public void runSoundCheck(){
-    	checkSound();
+
+    public void runSoundCheck() {
+        checkSound();
     }
-    public void checkSound()
-    {
-    	String filename;
+
+    public void checkSound() {
+        String filename;
         filename = donationSound.getText();
         System.out.println(filename);
         String bip = filename;
-        Media hit = new Media("file:///"+bip);
+        Media hit = new Media("file:///" + bip);
         MediaPlayer mediaPlayer = new MediaPlayer(hit);
         mediaPlayer.play();
     }
 
-    private void updateDonorName(String Donator, double Amount){
+    private void updateDonorName(String Donator, double Amount) {
         //System.out.println(String.format( "%.2f", Amount ) + "string format");
-    	//String test = Donator + " $" + String.format( "%.2f", Amount );
-        DonatorName.setText(Donator + " $" + String.format( "%.2f", Amount ));
+        //String test = Donator + " $" + String.format( "%.2f", Amount );
+        DonatorName.setText(Donator + " $" + String.format("%.2f", Amount));
     }
-    public void showDonationAlertMoney(final String Donator,final double Amount,final String Mess){
+
+    public void showDonationAlertMoney(final String Donator, final double Amount, final String Mess) {
         System.out.println("Trying to show the alert money");
         System.out.println(Thread.currentThread().getId());
         System.out.println(Donator + Mess);
         System.out.println(Thread.currentThread() + " thread");
         Platform.runLater(
-                new Runnable(){
-                    public void run(){
+                new Runnable() {
+                    public void run() {
                         System.out.println(Thread.currentThread() + " thread" + Mess + Message);
-                        updateDonorName(Donator,Amount);
+                        updateDonorName(Donator, Amount);
                         Message.setText(Mess);
                         FollowerPane.setVisible(true);
                         testSlider();
@@ -167,9 +160,6 @@ public class Controller extends Thread implements Runnable {
         System.out.println("Set Visible");
     }
 
-
-
-    boolean threadStarted = false;
     boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -180,6 +170,10 @@ public class Controller extends Thread implements Runnable {
         return true;
     }
 
+    /*
+    * checkValid() Reads the input data given by the user and attempts a simple validation
+    * Checks that the user ID is of proper length and that the time delay is proper
+    */
     void checkValid() {
         boolean problem = false;
         System.out.println(donationShown.selectedProperty().getValue());
@@ -205,21 +199,22 @@ public class Controller extends Thread implements Runnable {
 
 
     }
-    
-    void startDonationCheck(){
+
+    void startDonationCheck() {
         //extraLifeID,timeDelay,donationSound,donationShown
         //System.out.println(extraLifeID.getText());
-        threadStarted=true;
+        threadStarted = true;
         int timeDelaySend = 10;
         String donateSound = "";
         if (!timeDelay.getText().isEmpty()) {
             timeDelaySend = Integer.valueOf(timeDelay.getText());
         }
-        if(!donationSound.getText().isEmpty()){
-            donateSound=donationSound.getText();
+        if (!donationSound.getText().isEmpty()) {
+            donateSound = donationSound.getText();
         }
         donationSound.getText();
         donationShown.selectedProperty();
+
        /* Donations DonationChecker = new Donations(Integer.valueOf(extraLifeID.getText()),
                 timeDelaySend,
                 donateSound,
@@ -227,7 +222,7 @@ public class Controller extends Thread implements Runnable {
         Runnable r = new Donations(Integer.valueOf(extraLifeID.getText()),
                 timeDelaySend,
                 donateSound,
-                donationShown.selectedProperty().getValue(),0,"test","test",Controller.this);
+                donationShown.selectedProperty().getValue(), 0, "test", "test", Controller.this);
         newThread(r).start();
         //DonationChecker.runCheck();
         /*new Donations(Integer.valueOf(extraLifeID.getText()),
@@ -241,6 +236,7 @@ public class Controller extends Thread implements Runnable {
         t.setDaemon(true);
         return t;
     }
+
     void startThread() {
         //if(threadStarted == true){
         //newThread().interrupt();
@@ -255,6 +251,7 @@ public class Controller extends Thread implements Runnable {
         System.out.println(Donations.activeCount());
         //FollowerPane.setVisible(true);
         startDonationCheck();
+
 
         //DonatorName.setVisible(false);
         // Message.setVisible(false);

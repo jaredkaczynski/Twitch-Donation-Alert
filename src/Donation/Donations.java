@@ -1,5 +1,6 @@
 package Donation;
 
+import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.jsoup.Jsoup;
@@ -7,21 +8,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-
-import java.io.*;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import javafx.application.Platform;
-
 /**
- * Created by jared on 21.10.2014.
+ * Created by Jared Kaczynski on 21.10.2014.
  */
 public class Donations extends Thread implements Runnable {
     String totalDonations = "0";
-    int userId = 116306;
-    //String url = "http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participantDonations&participantID=" + userId;
-    String url = "https://dl.dropboxusercontent.com/u/17647321/extralife.html";
+    int userId = 116306; //Twitch.tv/riccio is the person this was made for so I defaulted it to his ID
+    String url = "http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participantDonations&participantID=" + userId;
+    //This is how I tested it without spending money
+    //String url = "https://dl.dropboxusercontent.com/u/17647321/extralife.html";
     int refreshTime = 2;
     boolean addToQueue = false;
     String soundFileLocation = "";
@@ -34,11 +33,12 @@ public class Donations extends Thread implements Runnable {
     long systemTime = 0;
     boolean isActive = false;
 
-    
-    Queue<donationInfo> q = new LinkedList();
-    public Donations(int extraLifeID, int timeBetween, String soundFile, Boolean showDonation, double donation, String Mess, String Name,Controller controller) {
 
-        userId = extraLifeID;
+    Queue<donationInfo> q = new LinkedList();
+
+    public Donations(int donationSiteID, int timeBetween, String soundFile, Boolean showDonation, double donation, String Mess, String Name, Controller controller) {
+
+        userId = donationSiteID;
         refreshTime = timeBetween * 1000;
         soundFileLocation = soundFile;
         alertWindow = controller;
@@ -50,14 +50,9 @@ public class Donations extends Thread implements Runnable {
 
     public void runCheck() {
         long systemTime = 0;
-
-
-        //String url = args[0];
         checkDonations();
         systemTime = System.currentTimeMillis();
         while (true) {
-
-
             if (checkDonations()) {
                 updateDonations();
             }
@@ -69,6 +64,7 @@ public class Donations extends Thread implements Runnable {
         }
 
     }
+
     /*
         void playSound(String musicFile) {
             musicFile = "C:/Users/jared/Desktop/hidey_ho.wav";
@@ -91,14 +87,14 @@ public class Donations extends Thread implements Runnable {
             AudioPlayer.player.start(audioStream);
         }
     */
-    void playSound(String filename)
-    {
+    void playSound(String filename) {
         System.out.println(filename);
         String bip = filename;
-        Media hit = new Media("file:///"+bip);
+        Media hit = new Media("file:///" + bip);
         MediaPlayer mediaPlayer = new MediaPlayer(hit);
         mediaPlayer.play();
     }
+
     public void updateDonations() {
         String linkText = "";
         String iframeSrc;
@@ -160,19 +156,19 @@ public class Donations extends Thread implements Runnable {
         System.out.println(totalDonations);
     }
 
-   /* public void updateDonationNoValue(Controller myController, String Donator, double Amount, String Message) {
-        if (Message.length() > 92) {
-            Message = Message.substring(0, 80) + "...";
-        }
-        System.out.println("I got to the update part!");
-        addToQueue = true;
-        Donations queueDonations = new Donations(0, 0, "", true,Amount,Message, Donator, myController);
-        System.out.println(q.isEmpty());
-        addToQueue(queueDonations);
-        System.out.println(q.isEmpty());
-        //myController.showDonationAlertMoney(Donator, Amount, Message);
-    }
-    */
+    /* public void updateDonationNoValue(Controller myController, String Donator, double Amount, String Message) {
+         if (Message.length() > 92) {
+             Message = Message.substring(0, 80) + "...";
+         }
+         System.out.println("I got to the update part!");
+         addToQueue = true;
+         Donations queueDonations = new Donations(0, 0, "", true,Amount,Message, Donator, myController);
+         System.out.println(q.isEmpty());
+         addToQueue(queueDonations);
+         System.out.println(q.isEmpty());
+         //myController.showDonationAlertMoney(Donator, Amount, Message);
+     }
+     */
     public void updateDonationNoValue(Controller myController, String Donator, double Amount, String Message) {
         if (Message.length() > 92) {
             Message = Message.substring(0, 80) + "...";
@@ -182,18 +178,19 @@ public class Donations extends Thread implements Runnable {
         //Donations queueDonations = new Donations(0, 0, "", true,Amount,Message, Donator, myController);
         System.out.println(q.isEmpty());
         //addToQueue(queueDonations);
-        addToQueueDonation(myController,Donator,Amount,Message);
+        addToQueueDonation(myController, Donator, Amount, Message);
         System.out.println(q.isEmpty());
         myController.showDonationAlertMoney(Donator, Amount, Message);
     }
-    public void addToQueueDonation(Controller myController, String Donator, double Amount, String Message){
-    	if (Message.length() > 92) {
+
+    public void addToQueueDonation(Controller myController, String Donator, double Amount, String Message) {
+        if (Message.length() > 92) {
             Message = Message.substring(0, 80) + "...";
         }
         System.out.println("I got to the update part!");
         addToQueue = true;
         //Donations queueDonations = new Donations(0, 0, "", true,Amount,Message, Donator, myController);
-        donationInfo temp = new donationInfo(Donator, Amount,Message);
+        donationInfo temp = new donationInfo(Donator, Amount, Message);
         System.out.println(q.isEmpty());
         q.add(temp);
         myController.showDonationAlertMoney(Donator, Amount, Message);
@@ -216,7 +213,7 @@ public class Donations extends Thread implements Runnable {
             //recentDonatorName = parts[0];
             currentDonations = iframeSrc.split("&goalLabel")[0];
             currentDonations = currentDonations.split("actualAmount=")[1];
-            donationUpdate = (Double.valueOf(currentDonations)>(Double.valueOf(totalDonations)));
+            donationUpdate = (Double.valueOf(currentDonations) > (Double.valueOf(totalDonations)));
             System.out.println(currentDonations + " space " + totalDonations + " " + donationUpdate);
             if (donationUpdate) {
                 totalDonations = currentDonations;
@@ -227,18 +224,19 @@ public class Donations extends Thread implements Runnable {
         return (donationUpdate);
     }
 
-    void addToQueue(donationInfo donatorInfo){
+    void addToQueue(donationInfo donatorInfo) {
         q.add(donatorInfo);
     }
+
     void processQueue() {
         //q.peek()
-    	System.out.println("got to processqueue");
+        System.out.println("got to processqueue");
         new Thread() {
             public void run() {
                 //Do some stuff in another thread
                 Platform.runLater(new Runnable() {
                     public void run() {
-                    	System.out.println(alertWindow+ q.peek().donator+ q.peek().amount+ q.peek().message);
+                        System.out.println(alertWindow + q.peek().donator + q.peek().amount + q.peek().message);
                         updateDonationNoValue(alertWindow, q.peek().donator, q.peek().amount, q.peek().message);
                     }
                 });
@@ -260,22 +258,22 @@ public class Donations extends Thread implements Runnable {
         while (true) {
             if (System.currentTimeMillis() - systemTime > 15000 && visible) {
                 //System.out.println("System Time");
-                systemTime= System.currentTimeMillis();
+                systemTime = System.currentTimeMillis();
                 alertWindow.slideIn();
                 visible = false;
                 addToQueue = false;
-                
+
             }
             try {
                 Thread.sleep(refreshTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(!q.isEmpty()){
+            if (!q.isEmpty()) {
                 processQueue();
             }
-            if(q.isEmpty()){
-            	isActive = false;
+            if (q.isEmpty()) {
+                isActive = false;
             }
             if (checkDonations()) {
                 new Thread() {
