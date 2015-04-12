@@ -17,7 +17,7 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="500.0">
                             <children>
-                                <TextField fx:id="extraLifeID" layoutX="20.0" layoutY="22.0" prefHeight="25.0"
+                                <TextField fx:id="participantID" layoutX="20.0" layoutY="22.0" prefHeight="25.0"
                                            prefWidth="254.0" promptText="Your Extra-Life ID " text="116306"
                                            AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="24.0"/>
                                 <CheckBox fx:id="donationShown" layoutX="14.0" layoutY="169.0" mnemonicParsing="false"

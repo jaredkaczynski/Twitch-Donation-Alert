@@ -33,7 +33,7 @@ public class Controller extends Thread implements Runnable {
     @FXML
     private Text actiontarget;
     @FXML
-    private TextField extraLifeID = null;
+    private TextField participantID = null;
     @FXML
     private TextField timeDelay;
     @FXML
@@ -86,12 +86,6 @@ public class Controller extends Thread implements Runnable {
             slideIn.play();
             isSlided = false;
         }
-        /*
-        FollowerPane.setVisible(!FollowerPane.isVisible());
-        if(testSlider.getText()=="Hide Panel"){
-            testSlider.setText("Show Panel");
-        }
-        testSlider.setText("Hide Panel");*/
     }
 
     public void removeScrollBar() {
@@ -146,24 +140,31 @@ public class Controller extends Thread implements Runnable {
         dropDownSelector.getSelectionModel().selectFirst();
         //TabPaneMain.getSelectionModel().selectLast();
     }
+
     public void showDonationAlertMoney(final String Donator, final double Amount, final String Mess) {
         System.out.println("Trying to show the alert money");
         System.out.println(Thread.currentThread().getId());
         System.out.println(Donator + Mess);
         System.out.println(Thread.currentThread() + " thread");
+
         Platform.runLater(
                 new Runnable() {
                     public void run() {
-                        System.out.println(Thread.currentThread() + " thread" + Mess + Message);
-                        updateDonorName(Donator, Amount);
-                        Message.setText(Mess);
-                        FollowerPane.setVisible(true);
-                        testSlider();
+                        //This is so a sound can play
+                        try {
+                            if (!Controller.this.donationSound.getText().isEmpty()) {
+                                //Controller.this.checkSoundWav();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println(Thread.currentThread() + " thread" + Mess + Controller.this.Message);
+                        Controller.this.updateDonorName(Donator, Amount);
+                        Controller.this.Message.setText(Mess);
+                        Controller.this.FollowerPane.setVisible(true);
+                        Controller.this.testSlider();
                     }
-                }
-        );
-
-
+                });
         System.out.println("Set Visible");
     }
 
@@ -184,10 +185,10 @@ public class Controller extends Thread implements Runnable {
     void checkValid() {
         boolean problem = false;
         System.out.println(donationShown.selectedProperty().getValue());
-        if (extraLifeID.getText().isEmpty() || (extraLifeID.getText().length() < 5) || !isInteger(extraLifeID.getText())) {
-            extraLifeID.clear();
-            System.out.println(Thread.currentThread() + " thread update" + extraLifeID);
-            extraLifeID.setPromptText("Please insert your ID properly. The 6? digit number.");
+        if (participantID.getText().isEmpty() || (participantID.getText().length() < 4) || !isInteger(participantID.getText())) {
+            participantID.clear();
+            System.out.println(Thread.currentThread() + " thread update" + participantID);
+            participantID.setPromptText("Please insert your ID properly. The 6? digit number.");
             problem = true;
         }
         if (!isInteger(timeDelay.getText())) {
@@ -208,8 +209,6 @@ public class Controller extends Thread implements Runnable {
     }
 
     void startDonationCheck() {
-        //extraLifeID,timeDelay,donationSound,donationShown
-        //System.out.println(extraLifeID.getText());
         threadStarted = true;
         int timeDelaySend = 10;
         String donateSound = "";
@@ -222,21 +221,11 @@ public class Controller extends Thread implements Runnable {
         donationSound.getText();
         donationShown.selectedProperty();
 
-
-       /* Donations DonationChecker = new Donations(Integer.valueOf(extraLifeID.getText()),
-                timeDelaySend,
-                donateSound,
-                donationShown.selectedProperty().getValue(),0,"test","test");*/
-        Runnable r = new Donations(dropDownSelector.getSelectionModel().getSelectedIndex(), Integer.valueOf(extraLifeID.getText()),
+        Runnable r = new Donations(dropDownSelector.getSelectionModel().getSelectedIndex(), Integer.valueOf(participantID.getText()),
                 timeDelaySend,
                 donateSound,
                 donationShown.selectedProperty().getValue(), 0, "test", "test", Controller.this);
         newThread(r).start();
-        //DonationChecker.runCheck();
-        /*new Donations(Integer.valueOf(extraLifeID.getText()),
-                timeDelaySend,
-                donateSound,
-                donationShown.selectedProperty().getValue()).start();*/
     }
 
     public Thread newThread(Runnable r) {
