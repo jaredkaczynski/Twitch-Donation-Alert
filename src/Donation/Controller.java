@@ -12,24 +12,15 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class Controller extends Thread implements Runnable {
-    @FXML
-    public Pane FollowerPane;
+
     Main newMain = new Main();
     TranslateTransition slideNotificationOut;
     TranslateTransition SlideNotificationin;
-    /*public Controller() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }*/
     boolean isSlided = false;
     boolean threadStarted = false;
+
+    @FXML
+    public Pane FollowerPane;
     @FXML
     private Text actiontarget;
     @FXML
@@ -52,8 +43,6 @@ public class Controller extends Thread implements Runnable {
     private Tab Options;
     @FXML
     private TabPane TabPaneMain;
-    @FXML
-    private Tab NotificationTab;
 
     //    Thread DonationChecker;
     // private boolean runOnce=false;
@@ -61,6 +50,8 @@ public class Controller extends Thread implements Runnable {
     private CheckBox showDonationBar;
     @FXML
     private TextField alertShowTime;
+    @FXML
+    private Tab NotificationTab;
 
     public void testSlider() {
         System.out.println(FollowerPane.getTranslateY());
@@ -77,6 +68,9 @@ public class Controller extends Thread implements Runnable {
         }
     }
 
+    public void switchTab() {
+        TabPaneMain.getSelectionModel().select(NotificationTab);
+    }
     public void slideIn() {
         if (FollowerPane.getTranslateY() == 62) {
             TranslateTransition slideIn = new TranslateTransition(Duration.seconds(.15), FollowerPane);

@@ -8,9 +8,10 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Donation.Controller">
     <children>
-        <TabPane id="TabPaneMain" layoutX="153.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity"
-                 prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
-                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <TabPane id="TabPaneMain" fx:id="TabPaneMain" layoutX="153.0" layoutY="39.0" minHeight="-Infinity"
+                 minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE"
+                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
             <tabs>
                 <Tab fx:id="Options" text="Options">
                     <content>
@@ -43,7 +44,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab id="NotificationTab" text="Notification">
+                <Tab id="NotificationTab" fx:id="NotificationTab" text="Notification">
                     <content>
                         <AnchorPane fx:id="MessageBox" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                     prefWidth="500.0" style="-fx-background-color: #01DF01;">

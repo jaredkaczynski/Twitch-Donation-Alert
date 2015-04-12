@@ -252,6 +252,7 @@ public class Donations extends Thread implements Runnable {
     public void run() {
 
         System.out.println(System.currentTimeMillis() + " " + systemTime + " wtf?");
+
         //String url = args[0];
         //checkDonations();
         systemTime = System.currentTimeMillis();
@@ -259,10 +260,11 @@ public class Donations extends Thread implements Runnable {
             if (System.currentTimeMillis() - systemTime > 15000 && visible) {
                 //System.out.println("System Time");
                 systemTime = System.currentTimeMillis();
+                alertWindow.switchTab();
                 alertWindow.slideIn();
                 visible = false;
                 addToQueue = false;
-
+                System.out.println("Here");
             }
             try {
                 Thread.sleep(refreshTime);
