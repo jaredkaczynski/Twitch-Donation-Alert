@@ -56,14 +56,14 @@ public class Controller extends Thread implements Runnable {
     private Tab NotificationTab;
     @FXML
     private ChoiceBox dropDownSelector;
-
-    //    Thread DonationChecker;
-    // private boolean runOnce=false;
     @FXML
     private CheckBox showDonationBar;
     @FXML
     private TextField alertShowTime;
 
+    /*
+    * Slides the donation graphic in and out so it appears when needed like common Twitch popups
+    */
     public void testSlider() {
         System.out.println(FollowerPane.getTranslateY());
         if (FollowerPane.getTranslateY() <= 0) {
@@ -79,15 +79,9 @@ public class Controller extends Thread implements Runnable {
         }
     }
 
-    public void slideIn() {
-        if (FollowerPane.getTranslateY() == 62) {
-            TranslateTransition slideIn = new TranslateTransition(Duration.seconds(.15), FollowerPane);
-            slideIn.setByY(-62);
-            slideIn.play();
-            isSlided = false;
-        }
-    }
-
+    /*
+    * Removes a scroll bar that by default shows on the message box and is unsightly
+    */
     public void removeScrollBar() {
         ScrollBar scrollBarv = (ScrollBar) Message.lookup(".scroll-bar:vertical");
         scrollBarv.setDisable(true);
@@ -95,11 +89,12 @@ public class Controller extends Thread implements Runnable {
 
     @FXML
     void runCheck(ActionEvent event) {
-        //initialize();
-        removeScrollBar();
         checkValid();
     }
 
+    /*
+    * Does nothing, kept for legacy use or future changes
+    */
     public void setHidden() {
         new Thread() {
             public void run() {
@@ -115,10 +110,16 @@ public class Controller extends Thread implements Runnable {
 
     }
 
+    /*
+    * Again a simple function that can be removed but kept for logic sake
+    */
     public void runSoundCheck() {
         checkSound();
     }
 
+    /*
+    * Tests a sound file
+    */
     public void checkSound() {
         String filename;
         filename = donationSound.getText();
@@ -129,18 +130,26 @@ public class Controller extends Thread implements Runnable {
         mediaPlayer.play();
     }
 
+    /*
+    * Adds the donator name and amount to the left box on the GUI
+    */
     private void updateDonorName(String Donator, double Amount) {
-        //System.out.println(String.format( "%.2f", Amount ) + "string format");
-        //String test = Donator + " $" + String.format( "%.2f", Amount );
         DonatorName.setText(Donator + " $" + String.format("%.2f", Amount));
     }
 
+    /*
+    * On GUI start this propagates? the dropdown selector as well as removes the scroll bar from the message box
+    */
     public void setData() {
         dropDownSelector.getItems().addAll("ExtraLife", "Doctors Without Borders");
         dropDownSelector.getSelectionModel().selectFirst();
-        //TabPaneMain.getSelectionModel().selectLast();
+        removeScrollBar();
     }
 
+    /*
+    * This function sends a request to the GUI thread with the updated information of who donated
+    * Contains all information required to update thread
+    */
     public void showDonationAlertMoney(final String Donator, final double Amount, final String Mess) {
         System.out.println("Trying to show the alert money");
         System.out.println(Thread.currentThread().getId());
@@ -168,6 +177,9 @@ public class Controller extends Thread implements Runnable {
         System.out.println("Set Visible");
     }
 
+    /*
+    * Checks if a string is an integer for the user entry
+    */
     boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -208,6 +220,10 @@ public class Controller extends Thread implements Runnable {
 
     }
 
+    /*
+    * Starts a program thread to run the donation checking
+    * Passes the required donation information to the thread as to run with required settings
+    */
     void startDonationCheck() {
         threadStarted = true;
         int timeDelaySend = 10;
@@ -228,33 +244,23 @@ public class Controller extends Thread implements Runnable {
         newThread(r).start();
     }
 
+    /*
+    * Starts a new thread
+    */
     public Thread newThread(Runnable r) {
         Thread t = new Thread(r);
         t.setDaemon(true);
         return t;
     }
 
+    /*
+    * Simple function for debugging, can be removed and startDonationCheck() directly called
+    * but this looks like a more logical progression
+    */
     void startThread() {
-        //if(threadStarted == true){
-        //newThread().interrupt();
-        // Donations.currentThread().isInterrupted();
-
-        // System.out.println(Donations.currentThread().isInterrupted()+"interrupted");
-        //startDonationCheck();
-        //System.out.println("success with what is done");
-        //System.out.println(Donations.activeCount());
-        //}else{
         System.out.println("???");
         System.out.println(Donations.activeCount());
-        //FollowerPane.setVisible(true);
         startDonationCheck();
-
-
-        //DonatorName.setVisible(false);
-        // Message.setVisible(false);
-
-        //}
-
     }
 
 

@@ -34,10 +34,11 @@ public class Donations extends Thread implements Runnable {
     Controller alertWindow;
     long systemTime = 0;
     int donationSite;
-    boolean isActive = false;
+    boolean isDonationPopupActive = false;
     String lastDonatorName = "";
     String lastDonatorMessage = "";
     double lastDonatorAmount = 0;
+    //How long to have the alert appear
     int alertShowTime = 5;
 
     Queue<donationInfo> q = new LinkedList();
@@ -89,6 +90,10 @@ public class Donations extends Thread implements Runnable {
         }
     }
 
+    /*
+    * Checks if there's an update in the Extra-Life page and if there is, it updates
+    * and adds the new donation to a queue
+    */
     private void updateExtraLife() {
         String linkText = "";
         String iframeSrc;
@@ -118,8 +123,6 @@ public class Donations extends Thread implements Runnable {
 
             recentDonatorMessage = link.text();
 
-            // parts = recentDonatorMessage.split(" donated");
-            // recentDonatorName = parts[0];
             System.out.println("");
             if ((!lastDonatorName.equals(recentDonatorName) || !lastDonatorMessage
                     .equals(recentDonatorMessage))) {
@@ -139,6 +142,10 @@ public class Donations extends Thread implements Runnable {
         }
     }
 
+    /*
+    * Checks if there's an update in the Doctors Without Borders page and if there is, it updates
+    * and adds the new donation to a queue
+    */
     private void updateDoctorsWithoutBorders() {
         String linkText = "";
         String iframeSrc;
@@ -175,18 +182,7 @@ public class Donations extends Thread implements Runnable {
 
             links = doc.select("#donors .donor-detail:first-of-type > em");
             link = links.first();
-            // link = doc.select("strong").first();
             recentDonatorMessage = link.text();
-            /*if (lastDonatorMessage.equals(link.text())) {
-                System.out.println(links.text());
-                recentDonatorMessage = "";
-            } else {
-                System.out.println("else");
-                recentDonatorMessage = link.text();
-                //lastDonatorMessage = recentDonatorMessage;
-            }*/
-            // parts = recentDonatorMessage.split(" donated");
-            // recentDonatorName = parts[0];
             System.out.println("");
             if ((!lastDonatorName.equals(recentDonatorName) || !lastDonatorMessage
                     .equals(recentDonatorMessage))) {
@@ -212,67 +208,45 @@ public class Donations extends Thread implements Runnable {
         if (Message.length() > 92) {
             Message = Message.substring(0, 80) + "...";
         }
-
         System.out.println("I got to the update part!");
-        // isActive = true;
-        // Donations queueDonations = new Donations(0, 0, "",
-        // true,Amount,Message, Donator, myController);
         System.out.println(q.isEmpty());
-        // addToQueue(queueDonations);
-        // addToQueueDonation(myController,Donator,Amount,Message);
         donationInfo temp = new donationInfo(Donator, Amount, Message);
         q.add(temp);
-        // myController.showDonationAlertMoney(Donator, Amount, Message);
     }
 
     void processQueue() {
-        // q.peek()
-        /*
-		 * try { if (!soundFileLocation.isEmpty()) {
-		 * playSound(soundFileLocation); } } catch (Exception e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 */
-
         System.out.println("got to processqueue");
         systemTime = System.currentTimeMillis();
         alertWindow.showDonationAlertMoney(q.peek().donator, q.peek().amount,
                 q.peek().message);
-        // updateDonationNoValue(alertWindow, q.peek().donatorName,
-        // q.peek().donationValue, q.peek().donationMessage);
         System.out.println(q.peek());
+        //removes the first object from the queue which is the one we just processed
         q.remove();
         System.out.println(q.peek());
-        isActive = true;
+        isDonationPopupActive = true;
     }
-
-    void addToQueue(donationInfo donatorInfo) {
-        q.add(donatorInfo);
-    }
-
+    /*
+    * Runs the donation checker which looks at the website requested and updates if required
+    */
     public void run() {
-
-        System.out.println(System.currentTimeMillis() + " " + systemTime + " wtf?");
-        //String url = args[0];
-        //checkDonations();
+        System.out.println(System.currentTimeMillis() + " " + systemTime + " ???");
         systemTime = System.currentTimeMillis();
         while (true) {
             if (System.currentTimeMillis() - systemTime > alertShowTime * 1000
-                    && isActive) {
-                // System.out.println("System Time" + System.currentTimeMillis()
-                // + " "+ systemTime);
+                    && isDonationPopupActive) {
                 systemTime = System.currentTimeMillis();
-                alertWindow.slideIn();
-                isActive = false;
+                alertWindow.testSlider();
+                isDonationPopupActive = false;
             }
-
-            System.out.println(isActive + " " + q.isEmpty());
-            if (!q.isEmpty() && !isActive) {
+            System.out.println(isDonationPopupActive + " " + q.isEmpty());
+            /*Checks if the queue q (hehehe) is empty and if a donation is currently active. If they queue is not empty
+            * it processes the queue,
+            */
+            if (!q.isEmpty() && !isDonationPopupActive) {
                 processQueue();
-                isActive = true;
+                isDonationPopupActive = true;
             }
-            //if (checkDonations()) {
             updateDonations();
-            //}
             try {
                 Thread.sleep(refreshTime);
             } catch (InterruptedException e) {
